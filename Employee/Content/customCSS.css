@@ -1,0 +1,190 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    background-color: #EEE;
+}
+.col-md-12.head {
+    background: url("data/kotiki.jpg") no-repeat;
+    background-size: cover;
+    height: 250px;
+    box-shadow: 0 0 20px 10px rgb(128, 128, 128);
+    ;
+}
+.col-md-10.content {
+    margin-top: 20px;
+    /*background-color: lightseagreen;*/
+}
+.col-md-2.menu {
+    margin-top: 20px;
+    /*background-color: aqua;*/
+}
+.listmenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.listmenu li {
+        padding: 0;
+        margin: 0;
+        margin-top: 6px;
+        height: 40px;
+        width: 170px;
+        background-color: gray;
+        text-align: center;
+        line-height: 40px;
+    }
+.listmenu li a {
+            color: wheat;
+            font-family: 'Segoe UI';
+            font-size: 14px;
+            list-style: none;
+            text-decoration: none;
+        }
+.btn.btn-success.addnew {
+    height: 40px;
+    width: 200px;
+}
+.table {
+    background-color: #86B168;
+    margin-top: 30px;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    color: #696969;
+}
+.col-md-12.new {
+    background-color: slategray;
+    display: none;
+    border-radius: 10px;
+}
+.Addform {
+    padding-bottom: 5px;
+}
+.form-control {
+    width: 250px;
+    height: 30px;
+}
+.btn.btn-success.submit {
+    margin-top: 5px;
+}
+.col-md-12.norecord {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    background-color: #696969;
+    border-radius: 5px;
+    font-size: 24px;
+    color: wheat;
+}
+.col-md-12.desc {
+    background-color: #86B168;
+    text-align: left;
+    height: 40px;
+    font-family: 'Segoe UI';
+    font-size: 20px;
+    color: wheat;
+}
+.table a {
+    text-decoration: none;
+    list-style: none;
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    color: #696969;
+}
+.col-md-12.edit-form {
+    background-color: slategray;
+    border-radius: 10px;
+    display: none;
+}
+#EditModal {
+}
+.btn.btn-success.goedit {
+}
+.table-head {
+    font-size: 20px;
+}
+.col-md-12.add-division-form {
+    display: none;
+}
+.col-md-12.ierarhu {
+    margin-top:50px;
+    font-size: 20px;
+    font-family: 'Segoe UI';
+    color: #969696;
+}
+.worker-in-goverment {
+    margin-top: 2px;
+    margin-left: 40px;
+    height: 40px;
+    width: 300px;
+    color: wheat;
+    line-height: 40px;
+    text-align: left;
+    background-color: tan;
+}
+.otdel {
+    padding-left: 5px;
+    height: 40px;
+    width: 300px;
+    line-height: 40px;
+    text-align: left;
+    background-color: #969696;
+    color: wheat;
+}
+.name-work-otdel {
+    margin-top: 2px;
+    margin-left: 40px;
+    height: 40px;
+    width: 300px;
+    color: wheat;
+    line-height: 40px;
+    text-align: left;
+    background-color: tan;
+}
+.group-in-otdel {
+    margin-top: 2px;
+    margin-left: 80px;
+    height: 40px;
+    width: 300px;
+    color: wheat;
+    line-height: 40px;
+    text-align: left;
+    background-color: #969696;
+}
+.name-work-group {
+    margin-top: 2px;
+    margin-left: 110px;
+    height: 40px;
+    width: 300px;
+    color: wheat;
+    line-height: 40px;
+    text-align: left;
+    background-color: tan;
+}
+.ul-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.divid {
+    height: 20px;
+}
+.per-gov {
+    margin-left: 40px;
+    font-size:16px;
+}
+.per-gro {
+    margin-left: 110px;
+    font-size: 16px;
+}
+.per-otd {
+    margin-left: 40px;
+    font-size: 16px;
+}
+.input-search form-control{
+    right:300px;
+}
+.col-md-12.search-div{
+    height: 70px;
+    background-color:forestgreen;
+}
