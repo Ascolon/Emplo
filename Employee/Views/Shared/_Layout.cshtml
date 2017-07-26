@@ -1,0 +1,90 @@
+﻿@{
+    List<SelectListItem> DivisionType = new List<SelectListItem>()
+    {
+        new SelectListItem{ Text = "Управление", Value = "Управление"},
+        new SelectListItem{ Text = "Отдел",      Value = "Отдел"},
+        new SelectListItem{ Text = "Группа",     Value = "Группа"}
+    };
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/MainJs.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/customCSS.css">
+</head>
+<body>
+
+    <!--###############################################################################-->
+    <!--МОДАЛЬНОЕ ОКНО ДЛЯ РЕДАКТИРОВАНИЯ ЗАПИСИ О СОТРУДНИКИ BEGIN-->
+    <!--###############################################################################-->
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Редактирование данных сотрудника</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Ajax.BeginForm("edit", "Home", null,
+                    new AjaxOptions
+                    {
+                        UpdateTargetId = "record-table",
+                        HttpMethod = "Post", OnSuccess = "ClearEditForm"
+                    }, new { @id = "EditForm" }))
+                    {
+                        @Html.Hidden("EditId", null, new { @class = "form-control editId" })
+                        @Html.Label("NewFirstName", "Фамилия")
+                        @Html.TextBox("NewFirstName", null, new { @class = "form-control NewFirstName", @placeholder = "Введите Фамилию", @required = "" })
+                        @Html.Label("NewSecondName", "Имя")
+                        @Html.TextBox("NewSecondName", null, new { @class = "form-control NewSecondName", @placeholder = "Введите Имя", @required = "" })
+                        @Html.Label("NewPatronymic", "Отчество")
+                        @Html.TextBox("NewPatronymic", null, new { @class = "form-control NewPatronymic", @placeholder = "Введите Отчество", @required = "" })
+                        @Html.Label("NewPosition", "Должность")
+                        @Html.TextBox("NewPosition", null, new { @class = "form-control NewPosition", @placeholder = "Введите Должность", @required = "" })
+                        @Html.Label("DivisionType", "Подразделение")
+                        @Html.DropDownList("DivisionType", DivisionType, "--Выберите тип--", new { @class = "form-control modal-edit-form" })
+                        @Html.Label("NewDivision", "Подразделения выбраного типа")
+                        @Html.DropDownList("NewDivision", Enumerable.Empty<SelectListItem>(), "--Выберите тип--", new { @class = "form-control modal-edit-form-select" })
+                    <div class="modal-footer">
+                        <button class="btn btn-success goedit" type="submit">Обновить данные</button>
+                        <button type="reset" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--###############################################################################-->
+    <!--МОДАЛЬНОЕ ОКНО ДЛЯ РЕДАКТИРОВАНИЯ ЗАПИСИ О СОТРУДНИКИ  END--> 
+    <!--###############################################################################-->
+
+
+
+    <div class="container">
+        <div class="col-md-12 head">
+
+        </div>
+        <div class="col-md-2 menu">
+            <ul class="listmenu">
+                <li>@Html.ActionLink("Список сотрудников", "Index", "Home", null, new { @class = "link" })</li>
+                <li>@Html.ActionLink("Структура", "Index", "Unit", null, new { @class = "link" })</li>
+                <li>@Html.ActionLink("Построить", "Index", "Build", null, new { @class = "link" })</li>
+            </ul>
+        </div>
+        <div class="col-md-10 content" id="body-content">
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

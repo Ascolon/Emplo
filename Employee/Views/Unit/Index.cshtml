@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Employee.Models.Division>
+@{
+    ViewBag.Title = "Подразделения";
+    List<SelectListItem> list = new List<SelectListItem>()
+    {
+        new SelectListItem{ Text = "Управление", Value = "Управление"},
+        new SelectListItem{ Text = "Отдел", Value = "Отдел"},
+        new SelectListItem{ Text = "Группа", Value = "Группа"},
+    };
+}
+<div class="col-md-12 addDivisionButtons">
+    <button class="btn btn-success" id="add-div">Добавить подразделение</button>
+</div>
+<div class="col-md-12 add-division-form"  id="add-division">
+    @using (Ajax.BeginForm("AddDivision", "Unit", new AjaxOptions { UpdateTargetId = "update-division", HttpMethod = "Post" },
+            new { @class = "addDivision" }))
+    {
+        @Html.Label("DivisionType", "Тип подразделения")
+        @Html.DropDownList("DivisionType", list, new { @class = "form-control available-division" })
+        @Html.Label("DivisionParent", "Список подразделений куда можно добавить создаваемое подразделение")
+        @Html.DropDownList("DivisionParent", Enumerable.Empty<SelectListItem>(), "", new { @class = "form-control selected-division" })
+        @Html.Label("DivisionName", "Имя подразделения")
+        @Html.TextBox("DivisionName", null, new { @class = "form-control", @placeholder = "Имя подразделения", @required = "" })
+    <button class="btn btn-success submit" type="submit">Добавить</button>
+    }
+</div>
+<div class="col-md-12" id="division-list">
+    <table class="table">
+        <caption>
+            <div class="col-md-12 desc">
+                Список подразделений.
+            </div>
+        </caption>
+        <thead>
+            <tr>
+                <td>Имя подразделения</td>
+                <td>Тип подразделения</td>
+                <td>Головное подразделение</td>
+            </tr>
+        </thead>
+        <tbody id="update-division">
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="3">
+                        <div class="col-md-12 norecord">
+                            Записей нет. Но Вы можете добавить новую запись.
+                        </div>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (Employee.Models.Division item in Model)
+                {
+                    <tr>
+                        <td>@item.DivisionName</td>
+                        <td>@item.DivisionType</td>
+                        <td>@item.DivisionParent</td>
+                        <td>
+                            @Ajax.ActionLink("Удалить", "DeleteDivision", new { RecId = item.DivisionId }, new AjaxOptions { UpdateTargetId = "update-division", HttpMethod = "Post" },
+                       new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table> 
+</div>
+  
+
+
+
+   <!--Вынести в custom.js-->
+<script>
+    $(document).ready(function () {
+        $(".form-control.available-division").change(function () {
+            $.get(
+                "Unit/Avilable",
+                {
+                    Type: $(this).val(),
+                },
+                success
+            );
+            $(".form-control.selected-division").empty();
+            function success(data) {
+                $.each(data, function (key, val) {
+                    $(".form-control.selected-division").append('<option value="' + val.DivisionName + '">' + val.DivisionName + '</option>');
+                });
+            }
+        });
+    })
+</script>
+

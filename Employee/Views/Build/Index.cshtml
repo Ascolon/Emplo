@@ -1,0 +1,11 @@
+﻿@using (Ajax.BeginForm("Build", "Build", null,
+                       new AjaxOptions { UpdateTargetId = "build", HttpMethod = "Post" },
+                       new { @class = "build-this" }))
+{
+    @Html.DropDownList("createThis", ViewBag.list as IEnumerable<SelectListItem>, "--Выберите что строим--",
+    new { @class = "form-control" })<br>
+    <button type="submit" class="btn btn-success">Построить</button>
+}
+<div class="col-md-12" id="build">
+
+</div>

@@ -1,0 +1,53 @@
+﻿@using Employee.Models;
+@{
+    DataContext Structure = new DataContext();
+}
+<div class="col-md-12 ierarhu">
+    @*<h1>Управление @ViewBag.header</h1>*@
+    @{
+        <div class="otdel">@ViewBag.header</div>
+        //Имя управления
+        var name = ViewBag.header as string;
+        //Рабочие в управлении
+        var workerInGoverment = Structure.Workers.Where(g => g.DivisionName == name).Select(g => g).ToList();
+        <ul class="ul-list">
+            <li class="per-gov">Сотрудники</li>
+            @for (int i = 0; i < workerInGoverment.Count; i++)
+            {
+                <li class="worker-in-goverment">@workerInGoverment[i].FirstName   @workerInGoverment[i].SecondName</li>
+            }
+        </ul>
+        //Отделы в управлении
+        var Main = Structure.Divisions.Where(g => g.DivisionParent == name).Select(g => g).ToList();
+        for (int i = 0; i < Main.Count; i++)
+        {
+            <div class="otdel">Отдел: @Main[i].DivisionName</div>
+            var currentOtdel = Main[i].DivisionName;
+            //Рабочие в текущем отделе
+            var Work = Structure.Workers.Where(g => g.DivisionName == currentOtdel).Select(g => g).ToList();
+            <ul class="ul-list">
+                <li class="per-otd">Сотрудники</li>
+                @for (int j = 0; j < Work.Count; j++)
+                {
+                    <li><div class="name-work-otdel">@Work[j].FirstName  @Work[j].SecondName</div></li>
+                }
+            </ul>
+            //Группы в текущем отделе
+            var Group = Structure.Divisions.Where(g => g.DivisionParent == currentOtdel).Select(g => g).ToList();
+            <ul class="ul-list">
+                @for (int k = 0; k < Group.Count; k++)
+                {
+                    <li class="group-in-otdel">Группа: @Group[k].DivisionName</li>
+                    //Рабочие в текущей группе
+                    var GroupName = Group[k].DivisionName;
+                    var workerIngroup = Structure.Workers.Where(g => g.DivisionName == GroupName).Select(g => g).ToList();
+                    <li class="per-gro">Сотрудники</li>
+                    for (int a = 0; a < workerIngroup.Count; a++)
+                    {
+                        <li class="name-work-group">@workerIngroup[a].FirstName  @workerIngroup[a].SecondName</li>
+                    }
+                }
+            </ul>
+        }
+    }
+</div>

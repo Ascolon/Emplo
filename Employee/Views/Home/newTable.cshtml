@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Employee.Models.Worker>
+@if (Model.Count() == 0)
+{
+    <tr>
+        <td colspan="5">
+            <div class="col-md-12 norecord">
+                Записей нет. Но Вы можете добавить новую запись.
+            </div>
+        </td>
+    </tr>
+}
+else
+{
+    foreach (Employee.Models.Worker w in Model.Reverse())
+    {
+        <tr>
+            <td id="FirstName-@w.WorkerId">@w.FirstName</td>
+            <td id="SecondName-@w.WorkerId">@w.SecondName</td>
+            <td id="Patronymic-@w.WorkerId">@w.Patronymic</td>
+            <td id="Position-@w.WorkerId">@w.Position</td>
+            <td>@w.DivisionName</td>
+            <td>
+                @Ajax.ActionLink("Удалить", "delete", "Home", new { RecId = w.WorkerId }, new AjaxOptions { UpdateTargetId = "record-table", HttpMethod = "Post" },
+                       new { @class = "btn btn-danger" })
+            </td>
+            <td>
+                <button data-toggle="modal"
+                        data-target="#EditModal" type="button"
+                        class="btn btn-success show-edit"
+                        value=@w.WorkerId>
+                    Редактировать
+                </button>
+            </td>
+        </tr>
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        $(".btn.btn-success.show-edit").click(function () {
+            CurrentId = $(this).val();
+            $(".form-control.NewFirstName").val($("#FirstName-" + CurrentId).text());
+            $(".form-control.NewSecondName").val($("#SecondName-" + CurrentId).text());
+            $(".form-control.NewPatronymic").val($("#Patronymic-" + CurrentId).text());
+            $(".form-control.NewPosition").val($("#Position-" + CurrentId).text());
+        });
+    });
+</script>

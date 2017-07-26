@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Приветствую, Вас";
+    List<SelectListItem> DivisionType = new List<SelectListItem>()
+    {
+        new SelectListItem{ Text = "Управление", Value = "Управление"},
+        new SelectListItem{ Text = "Отдел", Value = "Отдел"},
+        new SelectListItem{ Text = "Группа", Value = "Группа"}
+    };
+}
+@model IEnumerable<Employee.Models.Worker>
+<div class="col-md-12 search-div">
+    <div class="col-md-6">
+        <button class="btn btn-success addnew" id="test">Добавить сотрудника</button>
+    </div>
+    <div class="col-md-6">
+        <input type="text" class="form-control" />
+    </div>
+</div>
+<div class="col-md-12 new" id="forms">
+    @using (Ajax.BeginForm("add", "Home", null, new AjaxOptions
+    {
+        UpdateTargetId = "record-table",
+        HttpMethod = "POST",
+        OnSuccess = "ClearAddForm"
+    }, new { @id = "Addform" }))
+    {
+        @Html.Label("FirstName", "Фамилия")
+        @Html.TextBox("FirstName", null, new { @class = "form-control", @placeholder = "Введите Фамилию", @required = "" })
+        @Html.Label("SecondName", "Имя")
+        @Html.TextBox("SecondName", null, new { @class = "form-control", @placeholder = "Введите Имя", @required = "" })
+        @Html.Label("Patronymic", "Отчество")
+        @Html.TextBox("Patronymic", null, new { @class = "form-control", @placeholder = "Введите Отчество", @required = "" })
+        @Html.Label("Position", "Должность")
+        @Html.TextBox("Position", null, new { @class = "form-control", @placeholder = "Введите Должность", @required = "" })
+        @Html.Label("DivisionType", "Подразделение")
+        @Html.DropDownList("DivisionType", DivisionType, "--Выберите тип--", new { @class = "form-control main-add-form" })
+        @Html.Label("DivisionName", "Подразделения выбраного типа")
+        @Html.DropDownList("DivisionName", Enumerable.Empty<SelectListItem>(), "--Выберите тип--", new { @class = "form-control main-add-form-select", @required = ""})
+        <button class="btn btn-success submit" type="submit">Добавить</button>
+    }
+</div>
+
+<!--Таблица со списком сотрудников-->
+<table class="table">
+    <caption>
+        <div class="col-md-12 desc">
+            Список сотрудников.
+        </div>
+    </caption>
+    <thead>
+        <tr>
+            <td class="table-head">Фамилия</td>
+            <td class="table-head">Имя</td>
+            <td class="table-head">Отчество</td>
+            <td class="table-head">Должность</td>
+            <td class="table-head">Подразделение</td>
+        </tr>
+    </thead>
+    <tbody id="record-table">
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="5">
+                    <div class="col-md-12 norecord">
+                        Записей нет. Но Вы можете добавить новую запись.
+                    </div>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (Employee.Models.Worker w in Model.Reverse())
+            {
+                <tr>
+                    <td id="FirstName-@w.WorkerId">@w.FirstName</td>
+                    <td id="SecondName-@w.WorkerId">@w.SecondName</td>
+                    <td id="Patronymic-@w.WorkerId">@w.Patronymic</td>
+                    <td id="Position-@w.WorkerId">@w.Position</td>
+                    <td>@w.DivisionName</td>
+                    <td>
+                        @Ajax.ActionLink("Удалить", "delete", "Home", new { RecId = w.WorkerId }, 
+                       new AjaxOptions { UpdateTargetId = "record-table", HttpMethod = "Post" },
+                       new { @class = "btn btn-danger" })
+                    </td>
+                    <td>
+                        <button data-toggle="modal"
+                                data-target="#EditModal" type="button"
+                                class="btn btn-success show-edit"
+                                value=@w.WorkerId>
+                            Редактировать
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
